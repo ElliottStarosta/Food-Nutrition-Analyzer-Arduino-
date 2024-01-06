@@ -1,110 +1,90 @@
 #include <LiquidCrystal.h>
 
+// Define pin assignments
 #define JOYSTICK_X_PIN A0
 #define JOYSTICK_BUTTON_PIN 9
 
+// Define LCD pins
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+// Menu items
 const char* menuItems[] = {"Add", "Delete", "List of Items", "Done"};
-int currentOption = 0;
-int displayStartIndex = 0;
+
+// Current position in the menu
+int currentPosition = 0;
+
+// Joystick variables
 int initialJoystickXValue = 0;
 int lastJoystickXValue = 0;
-bool initializationPhase = true;
 
 void setup() {
+  // Initialize LCD and Serial communication
   lcd.begin(16, 2);
   Serial.begin(9600);
+
+  // Set up joystick button pin as input with pull-up resistor
   pinMode(JOYSTICK_BUTTON_PIN, INPUT_PULLUP);
+
+  // Read initial joystick position
   initialJoystickXValue = analogRead(JOYSTICK_X_PIN);
   lastJoystickXValue = initialJoystickXValue;
+
+  // Initial display of the menu
+  updateMenu();
 }
 
 void loop() {
-  if (initializationPhase) {
-    // Display "Add" during the initialization phase
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("> Add");
-    lcd.setCursor(0, 1);
-    lcd.print("Delete");
+  // Read current joystick position
+  int joystickX = analogRead(JOYSTICK_X_PIN);
 
-    // Wait for the joystick value to change
-    while (analogRead(JOYSTICK_X_PIN) == lastJoystickXValue) {
-      if (!digitalRead(JOYSTICK_BUTTON_PIN)){
-        executeMenuOption(currentOption);
-      }
-      delay(100);
-    }
-
-    lcd.clear();
-    lastJoystickXValue = analogRead(JOYSTICK_X_PIN);
-    initializationPhase = false;  // Move to the regular menu behavior
+  // Check for joystick movement and update menu accordingly
+  if (joystickX < 412 && currentPosition > 0 && lastJoystickXValue >= 412) {
+    currentPosition--;
+    updateMenu();
+  } else if (joystickX > 612 && currentPosition < 3 && lastJoystickXValue <= 612) {
+    currentPosition++;
+    updateMenu();
   }
 
-  // Main loop
-  int joystickXValue = analogRead(JOYSTICK_X_PIN);
-  int joystickButtonState = digitalRead(JOYSTICK_BUTTON_PIN);
+  // Update last joystick value
+  lastJoystickXValue = joystickX;
 
-  if (abs(joystickXValue - initialJoystickXValue) > 10) {
-    // Calculate the offset from the initial position
-    int offset = joystickXValue - initialJoystickXValue;
-    currentOption = map(offset, -512, 512, 0, sizeof(menuItems) / sizeof(menuItems[0]));
-
-    if (currentOption < 0) {
-      currentOption = 0;
-    } else if (currentOption >= sizeof(menuItems) / sizeof(menuItems[0])) {
-      currentOption = sizeof(menuItems) / sizeof(menuItems[0]) - 1;
-    }
-
-    if (currentOption < displayStartIndex) {
-      displayStartIndex = currentOption;
-    } else if (currentOption >= displayStartIndex + 2) {
-      displayStartIndex = currentOption - 1;
-    }
-
-    displayMenu();
+  // Check for button press
+  if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
+    executeMenuItem();
+    delay(200); // Debounce delay
   }
-
-  if (joystickButtonState == LOW) {
-    executeMenuOption(currentOption);
-    delay(500);  // Debounce
-  }
-
-  delay(100);  // Small delay for stability
 }
 
-void displayMenu() {
+// Update the displayed menu on the LCD
+void updateMenu() {
   lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("> " + String(menuItems[currentPosition]));
 
-  for (int i = 0; i < 2; i++) {
-    int displayIndex = displayStartIndex + i;
-
-    if (displayIndex >= 0 && displayIndex < sizeof(menuItems) / sizeof(menuItems[0])) {
-      lcd.setCursor(0, i);
-
-      if (displayIndex == currentOption) {
-        lcd.print("> ");
-      }
-
-      lcd.print(menuItems[displayIndex]);
-    }
+  // If there's another item, display it on the second row
+  if (currentPosition < 3) {
+    lcd.setCursor(0, 1);
+    lcd.print(menuItems[currentPosition + 1]);
   }
 }
 
-void executeMenuOption(int option) {
-  if (currentOption == 0) {
+// Execute the action associated with the selected menu item
+void executeMenuItem() {
+  lcd.clear();
+  if (currentPosition == 0) {
     addExecute();
-  } else if (currentOption == 1) {
+  } else if (currentPosition == 1) {
     deleteExecute();
-  } else if (currentOption == 2) {
+  } else if (currentPosition == 2) {
     viewListExecute();
-  } else if (currentOption == 3) {
+  } else if (currentPosition == 3) {
     doneExecute();
   }
 }
 
+// Functions for executing specific menu items
 void addExecute() {
   Serial.println("Add");
 }
