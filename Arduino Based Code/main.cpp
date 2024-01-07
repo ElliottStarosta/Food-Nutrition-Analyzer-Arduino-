@@ -201,7 +201,7 @@ String inputText() {
       if (newString.length() > 16) {
         lcd.print("Invalid Name, enter a new one");
         delay(5000);
-        continue;  // Corrected the 'countinue' to 'continue'
+        continue;
       } else {
         break; 
       }
