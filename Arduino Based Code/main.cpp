@@ -105,7 +105,7 @@ void addExecute() {
 }
 
 void deleteExecute() {
-  Serial.println("Delete");
+  foodItemsScroll();
 }
 
 void viewListExecute() {
@@ -209,4 +209,57 @@ String inputText() {
   }
 
   return newString;
+}
+
+void foodItemsScroll() {
+  int selectedPosition = 0;
+
+  while (true) {
+    // Display the current food item at the selected position
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("> " + foods[selectedPosition].name);
+
+    // Display the next food item on the second row if available
+    if (selectedPosition < foodsCount - 1) {
+      lcd.setCursor(0, 1);
+      lcd.print(foods[selectedPosition + 1].name);
+    }
+
+    // Wait for user input
+    int joystickX = analogRead(JOYSTICK_X_PIN);
+
+    if (joystickX < 412 && selectedPosition > 0) {
+      selectedPosition--;
+    } else if (joystickX > 612 && selectedPosition < foodsCount - 1) {
+      selectedPosition++;
+    }
+
+    // Check for button press
+    if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
+      deleteFoodItem(selectedPosition);
+      break;
+    }
+
+    delay(200);
+  }
+  updateMenu();
+}
+
+void deleteFoodItem(int index) {
+  // Shift elements to delete item (rewrites over it)
+  for (int i = index; i < foodsCount - 1; i++) {
+    foods[i] = foods[i + 1];
+  }
+  // Decrement the count of food items
+  foodsCount--;
+
+  // Have empty string at last index, clears string
+  memset(foods[foodsCount].id, 0, sizeof(foods[foodsCount].id));
+  foods[foodsCount].name = "";
+
+  // Display a message indicating the deletion
+  lcd.clear();
+  lcd.print("Deleted");
+  delay(2000);
 }
