@@ -1,32 +1,38 @@
 #include <LiquidCrystal.h>
-#include <MFRC522.h>
-#include <SPI.h>
 
+// Define pin assignments
 #define JOYSTICK_X_PIN A0
 #define JOYSTICK_BUTTON_PIN 9
 
+// Define LCD pins
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-const char* menuItems[] = {"Add", "Delete", "List of Items", "Done"};
-int currentPosition = 0;
-int initialJoystickXValue = 0;
-int lastJoystickXValue = 0;
+// Menu items
+const char* menuItems[] = {"Add", "Delete", "List of Items", "Analyze Meal"};
 
-// Define RFID pins
-#define RST_PIN 9
-#define SS_PIN 10
-MFRC522 mfrc522(SS_PIN, RST_PIN);
-
-// Dictionary to store RFID IDs and corresponding names
+// Define RFID related constants
+const int RFID_LENGTH = 9;
 const int MAX_FOODS = 20;
+
 struct Food {
-  byte id[4];
+  char id[RFID_LENGTH];
   String name;
 };
 
 Food foods[MAX_FOODS];
 int foodsCount = 0;
+
+// Current position in the menu
+int currentPosition = 0;
+int currentPos = 0;
+
+// Joystick variables
+int initialJoystickXValue = 0;
+int lastJoystickXValue = 0;
+
+bool isScrolling = false;
+bool isDelete = false;
 
 void setup() {
   // Initialize LCD and Serial communication
@@ -42,29 +48,38 @@ void setup() {
 
   // Initial display of the menu
   updateMenu();
+
+  addExampleFoods();
+
+  // Print the food array
+  printFoodArray();
 }
 
 void loop() {
-  // Read current joystick position
   int joystickX = analogRead(JOYSTICK_X_PIN);
 
-  // Check for joystick movement and update menu accordingly
-  if (joystickX < 412 && currentPosition > 0 && lastJoystickXValue >= 412) {
-    currentPosition--;
-    updateMenu();
-  } else if (joystickX > 612 && currentPosition < 3 && lastJoystickXValue <= 612) {
-    currentPosition++;
-    updateMenu();
+  if (!isScrolling) {
+    // Check for joystick movement and update menu accordingly
+    if (joystickX < 412 && currentPosition > 0 && lastJoystickXValue >= 412) {
+      currentPosition--;
+      updateMenu();
+    } else if (joystickX > 612 && currentPosition < 3 && lastJoystickXValue <= 612) {
+      currentPosition++;
+      updateMenu();
+    }
+
+    // Check for button press
+    if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
+      executeMenuItem();
+      delay(200); // Debounce delay
+    }
+  } else {
+    // In scrolling mode
+    scrollFoodNames();
   }
 
   // Update last joystick value
   lastJoystickXValue = joystickX;
-
-  // Check for button press
-  if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
-    executeMenuItem();
-    delay(200); // Debounce delay
-  }
 }
 
 // Update the displayed menu on the LCD
@@ -84,166 +99,116 @@ void updateMenu() {
 void executeMenuItem() {
   lcd.clear();
   if (currentPosition == 0) {
-    addExecute();
-    currentPosition = 0;
+    // addExecute();
   } else if (currentPosition == 1) {
     deleteExecute();
-    currentPosition = 0;
+    isDelete = false;
   } else if (currentPosition == 2) {
-    viewListExecute();
-    currentPosition = 0;
+    scrollFoodNames();
   } else if (currentPosition == 3) {
-    doneExecute();
-    currentPosition = 0;
+    // doneExecute();
   }
-}
-
-// Functions for executing specific menu items
-void addExecute() {
-  readRFID();
-  updateMenu();
 }
 
 void deleteExecute() {
-  foodItemsScroll();
+  Serial.println("Delete");
+  isDelete = true;
+  scrollFoodNames();
 }
 
-void viewListExecute() {
-  Serial.println("List");
+void addExampleFoods() {
+  addFood("BD31152B", "Apple");
+  addFood("A2F0C37E", "Banana");
+  addFood("8EFD904D", "Orange");
+  addFood("5C82B9A1", "Peach");
+  addFood("3A7D812F", "Grapes");
+  masterDone();
 }
 
-void doneExecute() {
-  Serial.println("Done");
-}
-
-void readRFID() {
-  lcd.clear();
-  lcd.println("Scan RFID tag...");
-  
-  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
-    Serial.println("RFID tag detected!");
-
-    // Get the RFID UID
-    byte* uid = mfrc522.uid.uidByte;
-    String rfidID = "";
-    for (int i = 0; i < mfrc522.uid.size; i++) {
-      rfidID += String(uid[i], HEX);
-    }
-
-    Serial.println("RFID ID: " + rfidID);
-
-    // Check if the RFID tag is already in the dictionary
-    int existingIndex = findFoodIndex(rfidID);
-    
-    if (existingIndex != -1) {
-      lcd.clear();
-      lcd.print("Tag already exists!");
-      delay(2000);
-      lcd.clear();
-    } else {
-      // Prompt user to enter a name for the food
-      lcd.clear();
-      lcd.print("Enter name (16 chars):");
-      lcd.setCursor(0, 1);
-      
-      String foodName = inputText();
-      
-      // Save RFID ID and food name to the dictionary
-      if (foodsCount < MAX_FOODS) {
-        memcpy(foods[foodsCount].id, uid, mfrc522.uid.size);
-        foods[foodsCount].name = foodName;
-        foodsCount++;
-
-        lcd.clear();
-        lcd.print("Food added!");
-        delay(2000);
-        lcd.clear();
-      } else {
-        lcd.clear();
-        lcd.print("Dictionary full!");
-        delay(2000);
-        lcd.clear();
-      }
-    }
-
-    mfrc522.PICC_HaltA();
-    mfrc522.PCD_StopCrypto1();
+void addFood(const char* rfid, String name) {
+  if (foodsCount < MAX_FOODS) {
+    strncpy(foods[foodsCount].id, rfid, RFID_LENGTH - 1);
+    foods[foodsCount].id[RFID_LENGTH - 1] = '\0'; // Null-terminate the string
+    foods[foodsCount].name = name;
+    foodsCount++;
   }
 }
 
-int findFoodIndex(String rfidID) {
+void printFoodArray() {
+  Serial.println("Food Array:");
+
   for (int i = 0; i < foodsCount; i++) {
-    String storedID = "";
-    for (int j = 0; j < mfrc522.uid.size; j++) {
-      storedID += String(foods[i].id[j], HEX);
-    }
-
-    if (rfidID.equals(storedID)) {
-      return i;
-    }
+    Serial.print("RFID: ");
+    Serial.print(foods[i].id);
+    Serial.print(", Name: ");
+    Serial.println(foods[i].name);
   }
-  
-  return -1;
 }
 
-String inputText() {
-  String newString = "";
-  delay(2000);
+void scrollFoodNames() {
+  int currentPos = 0;
+  updateDeleteList(currentPos);
+  isScrolling = true;
 
   while (true) {
-    lcd.clear();
-    
-    if (Serial.available()) {
-      delay(300);
+    int joystickX = analogRead(JOYSTICK_X_PIN);
+    Serial.println(joystickX);
 
-      newString = Serial.readStringUntil('\n'); // Read until newline character
+    // Check for joystick movement and update menu accordingly
+    if (joystickX < 412 && currentPos >= 0 && lastJoystickXValue >= 412) {
+      currentPos--;
+      updateDeleteList(currentPos);
+    } else if (joystickX > 612 && currentPos < foodsCount - 1 && lastJoystickXValue <= 612) {
+      currentPos++;
+      updateDeleteList(currentPos);
+    }
 
-      if (newString.length() > 16) {
-        lcd.print("Invalid Name, enter a new one");
-        delay(5000);
-        continue;
-      } else {
-        break; 
+    // Update last joystick value
+    lastJoystickXValue = joystickX;
+    if (isDelete) {
+      if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
+        if (foods[currentPos].name != "DONE") {
+          deleteFoodItem(currentPos);
+          updateDeleteList(currentPos);
+        } else {
+          isScrolling = false;
+          currentPosition = 0;
+          break;
+        }
       }
     }
+    if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW && foods[currentPos].name == "DONE" ) {
+      isScrolling = false;
+      currentPosition = 0;
+      break;
+    }
+    delay(200);
   }
-
-  return newString;
+  updateMenu();
 }
 
-void foodItemsScroll() {
-  int selectedPosition = 0;
+void updateDeleteList(int currentPos) {
+  int selectedPosition = currentPos;
 
-  while (true) {
-    // Display the current food item at the selected position
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("> " + foods[selectedPosition].name);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("> " + String(foods[selectedPosition].name));
 
-    // Display the next food item on the second row if available
+  // If there's another item, display it on the second row
+  if (selectedPosition != -1) {
     if (selectedPosition < foodsCount - 1) {
       lcd.setCursor(0, 1);
       lcd.print(foods[selectedPosition + 1].name);
     }
-
-    // Wait for user input
-    int joystickX = analogRead(JOYSTICK_X_PIN);
-
-    if (joystickX < 412 && selectedPosition > 0) {
-      selectedPosition--;
-    } else if (joystickX > 612 && selectedPosition < foodsCount - 1) {
-      selectedPosition++;
-    }
-
-    // Check for button press
-    if (digitalRead(JOYSTICK_BUTTON_PIN) == LOW) {
-      deleteFoodItem(selectedPosition);
-      break;
-    }
-
-    delay(200);
   }
-  updateMenu();
+  if (selectedPosition < 0) {
+    lcd.setCursor(0, 0);
+    lcd.print("> " + String(foods[0].name));
+    lcd.setCursor(0, 1);
+    lcd.print(foods[1].name);
+  }
+
+  delay(200);
 }
 
 void deleteFoodItem(int index) {
@@ -254,7 +219,7 @@ void deleteFoodItem(int index) {
   // Decrement the count of food items
   foodsCount--;
 
-  // Have empty string at last index, clears string
+  // Have an empty string at the last index, clears string
   memset(foods[foodsCount].id, 0, sizeof(foods[foodsCount].id));
   foods[foodsCount].name = "";
 
@@ -262,4 +227,8 @@ void deleteFoodItem(int index) {
   lcd.clear();
   lcd.print("Deleted");
   delay(2000);
+}
+
+void masterDone() {
+  addFood("MASTERKEY", "DONE");
 }
