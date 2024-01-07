@@ -1,22 +1,32 @@
 #include <LiquidCrystal.h>
+#include <MFRC522.h>
+#include <SPI.h>
 
-// Define pin assignments
 #define JOYSTICK_X_PIN A0
 #define JOYSTICK_BUTTON_PIN 9
 
-// Define LCD pins
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-// Menu items
 const char* menuItems[] = {"Add", "Delete", "List of Items", "Done"};
-
-// Current position in the menu
 int currentPosition = 0;
-
-// Joystick variables
 int initialJoystickXValue = 0;
 int lastJoystickXValue = 0;
+
+// Define RFID pins
+#define RST_PIN 9
+#define SS_PIN 10
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+
+// Dictionary to store RFID IDs and corresponding names
+const int MAX_FOODS = 20;
+struct Food {
+  byte id[4];
+  String name;
+};
+
+Food foods[MAX_FOODS];
+int foodsCount = 0;
 
 void setup() {
   // Initialize LCD and Serial communication
@@ -75,18 +85,23 @@ void executeMenuItem() {
   lcd.clear();
   if (currentPosition == 0) {
     addExecute();
+    currentPosition = 0;
   } else if (currentPosition == 1) {
     deleteExecute();
+    currentPosition = 0;
   } else if (currentPosition == 2) {
     viewListExecute();
+    currentPosition = 0;
   } else if (currentPosition == 3) {
     doneExecute();
+    currentPosition = 0;
   }
 }
 
 // Functions for executing specific menu items
 void addExecute() {
-  Serial.println("Add");
+  readRFID();
+  updateMenu();
 }
 
 void deleteExecute() {
@@ -99,4 +114,99 @@ void viewListExecute() {
 
 void doneExecute() {
   Serial.println("Done");
+}
+
+void readRFID() {
+  lcd.clear();
+  lcd.println("Scan RFID tag...");
+  
+  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+    Serial.println("RFID tag detected!");
+
+    // Get the RFID UID
+    byte* uid = mfrc522.uid.uidByte;
+    String rfidID = "";
+    for (int i = 0; i < mfrc522.uid.size; i++) {
+      rfidID += String(uid[i], HEX);
+    }
+
+    Serial.println("RFID ID: " + rfidID);
+
+    // Check if the RFID tag is already in the dictionary
+    int existingIndex = findFoodIndex(rfidID);
+    
+    if (existingIndex != -1) {
+      lcd.clear();
+      lcd.print("Tag already exists!");
+      delay(2000);
+      lcd.clear();
+    } else {
+      // Prompt user to enter a name for the food
+      lcd.clear();
+      lcd.print("Enter name (16 chars):");
+      lcd.setCursor(0, 1);
+      
+      String foodName = inputText();
+      
+      // Save RFID ID and food name to the dictionary
+      if (foodsCount < MAX_FOODS) {
+        memcpy(foods[foodsCount].id, uid, mfrc522.uid.size);
+        foods[foodsCount].name = foodName;
+        foodsCount++;
+
+        lcd.clear();
+        lcd.print("Food added!");
+        delay(2000);
+        lcd.clear();
+      } else {
+        lcd.clear();
+        lcd.print("Dictionary full!");
+        delay(2000);
+        lcd.clear();
+      }
+    }
+
+    mfrc522.PICC_HaltA();
+    mfrc522.PCD_StopCrypto1();
+  }
+}
+
+int findFoodIndex(String rfidID) {
+  for (int i = 0; i < foodsCount; i++) {
+    String storedID = "";
+    for (int j = 0; j < mfrc522.uid.size; j++) {
+      storedID += String(foods[i].id[j], HEX);
+    }
+
+    if (rfidID.equals(storedID)) {
+      return i;
+    }
+  }
+  
+  return -1;
+}
+
+String inputText() {
+  String newString = "";
+  delay(2000);
+
+  while (true) {
+    lcd.clear();
+    
+    if (Serial.available()) {
+      delay(300);
+
+      newString = Serial.readStringUntil('\n'); // Read until newline character
+
+      if (newString.length() > 16) {
+        lcd.print("Invalid Name, enter a new one");
+        delay(5000);
+        continue;  // Corrected the 'countinue' to 'continue'
+      } else {
+        break; 
+      }
+    }
+  }
+
+  return newString;
 }
