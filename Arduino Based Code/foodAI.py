@@ -3,7 +3,11 @@ import serial
 
 # Function to send user input to GPT-3.5 Turbo and retrieve the assistant's response
 def get_assistant_response(user_input):
-    client = OpenAI(api_key="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")
+
+    with open("key.txt", "r") as file:
+        api_key = file.read().strip()
+
+    client = OpenAI(api_key=api_key)
 
     assistant = client.beta.assistants.create(
         name="Food Meal Analyzer",
