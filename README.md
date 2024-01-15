@@ -11,9 +11,9 @@ This repository contains the code and documentation for Elliott Starosta's TEJ20
 - **Course:** TEJ20
 - **Due Date:** January 24th, 2024
 
-## Project Description
+## Project Description Introduction
 
-The project is a comprehensive food management system and assistant, utilizing RFID sensors and NFC tags on food items. It facilitates assignments and provides feedback on creating balanced and well-constructed meals, enhancing the meal-prep experience.
+The inspiration for my project stemmed from popular food information logging apps like "My Fitness Pal" and "My Net Diary." While these applications efficiently track food consumption, I noticed a gap in the market for a comprehensive food management system that combines RFID sensors and NFC tags on food items. Taking a unique approach, I decided to develop a food tracker/analyzer using Arduino, incorporating features that set it apart from existing solutions. Notably, I integrated an RFID sensor to scan food items and employed the OpenAI API to analyze nutritional content, providing users with personalized feedback on creating balanced and well-constructed meals. Unlike traditional apps, my project displays information on an LCD screen for a more dynamic and user-friendly experience during meal preparation.
 
 ## Journal
 
@@ -54,6 +54,7 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 
 ### Source Code:
 Check the [C++](https://github.com/ElliottStarosta/TEJ20-Summative-/blob/main/Arduino%20Based%20Code/main.cpp) and [Python](https://github.com/ElliottStarosta/TEJ20-Summative-/blob/main/Arduino%20Based%20Code/main_food_algorithm.py) source codes!
+
 ## Additional Notes
 
-[Include any additional information]
+Hope you enjoy it! (I spent ~40 hours on this summative...)
