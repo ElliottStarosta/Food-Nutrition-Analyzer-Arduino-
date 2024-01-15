@@ -23,13 +23,13 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 
 ### Functional Block Diagram
 
-[Placeholder]
+![FinalBlock drawio](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/ae4c0c9d-94b1-4098-9133-1fdef4dadc0e)
 
 ### User Manual 
 
 #### Launching:
-- Launch Arduino IDE and load code onto the Arduino.
-- Launch VS Code and start the foodAI python script.
+- Launch Arduino IDE and upload the main.cpp onto the Arduino.
+- Launch VS Code and start the "main_food_algorithm" python script.
 
 #### Using the Machine:
 1. When starting, scan new food items you want to analyze during meal prep.
@@ -52,8 +52,8 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 - Press the joystick to delete the selected item.
 
 
-### Block Diagram:
-![FinalBlock drawio](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/ae4c0c9d-94b1-4098-9133-1fdef4dadc0e)
+### Source Code:
+Check the [C++](https://github.com/ElliottStarosta/TEJ20-Summative-/blob/main/Arduino%20Based%20Code/main.cpp) and [Python](https://github.com/ElliottStarosta/TEJ20-Summative-/blob/main/Arduino%20Based%20Code/main_food_algorithm.py) source codes!
 ## Additional Notes
 
 [Include any additional information]
