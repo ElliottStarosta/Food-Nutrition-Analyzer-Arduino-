@@ -97,7 +97,7 @@ while True:
     elif 'Food in Meal:' in received_line:
         # Get response from OpenAI Assistant based on received line
         api_request = get_assistant_response(received_line)
-        print(api_request)
+        print(api_request) 
         serialcomm.write(api_request.encode('utf-8') + b'\n')
 
     elif received_line == "Scan":
