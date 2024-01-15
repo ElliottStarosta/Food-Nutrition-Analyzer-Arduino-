@@ -53,7 +53,7 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 
 
 ### Block Diagram:
-![alt text](Images\FinalBlock.drawio.png)
+![FinalBlock drawio](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/ae4c0c9d-94b1-4098-9133-1fdef4dadc0e)
 ## Additional Notes
 
 [Include any additional information]
