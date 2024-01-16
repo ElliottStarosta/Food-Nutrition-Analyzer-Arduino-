@@ -57,4 +57,4 @@ Check the [C++](https://github.com/ElliottStarosta/TEJ20-Summative-/blob/main/Ar
 
 ## Additional Notes
 - **DISCLAIMER:** No borrowed code was used in this project, as no one has made this project before.
--Hope you enjoy it! (I spent ~40 hours on this summative...)
+- Hope you enjoy it! (I spent ~40 hours on this summative...)
