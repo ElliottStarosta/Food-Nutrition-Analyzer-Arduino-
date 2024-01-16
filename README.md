@@ -56,5 +56,5 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 Check the [C++](https://github.com/ElliottStarosta/TEJ20-Summative-/blob/main/Arduino%20Based%20Code/main.cpp) and [Python](https://github.com/ElliottStarosta/TEJ20-Summative-/blob/main/Arduino%20Based%20Code/main_food_algorithm.py) source codes!
 
 ## Additional Notes
-
-Hope you enjoy it! (I spent ~40 hours on this summative...)
+- **DISCLAIMER:** No borrowed code was used in this project, as no one has made this project before.
+-Hope you enjoy it! (I spent ~40 hours on this summative...)
