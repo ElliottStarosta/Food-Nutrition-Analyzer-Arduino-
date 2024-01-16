@@ -35,7 +35,7 @@ def get_assistant_response(user_input):
     # Steps 1-4: Create an Assistant, Create a Thread, Add a Message, and Run the Assistant
     assistant = client.beta.assistants.create(
         name="Food Expert",
-        instructions="You're a food expert. Suggest healthier additions for a meal. Response: 'Add (foods)' for a better balance because (8 words or less). If balanced, say 'Well-balanced with nutritious elements due to... 8 words or less.",
+        instructions="You're a food expert. Suggest healthier additions for a meal. Response: 'Add (foods)' for a better balance because (8 words or less). If balanced, say 'Well-balanced with nutritious elements due to... 8 words or less. TOTAL 59 CHARS OR LESS",
         tools=[{"type": "code_interpreter"}],
         model="gpt-4-1106-preview"
     )
@@ -82,6 +82,7 @@ def get_assistant_response(user_input):
             return assistant_content
 
 # Infinite loop to continuously read data from serial communication
+
 while True:
     time.sleep(0.5)
     received_line = serialcomm.readline().decode('ascii').strip()
@@ -89,24 +90,24 @@ while True:
     if received_line:  # Check if the line is not empty
         print(received_line)
 
-    # Handle different cases based on received data
-    if received_line == "Food in Meal:":
-        error_message = "1"
-        serialcomm.write(error_message.encode('utf-8') + b'\n')
+        # Handle different cases based on received data
+        if received_line == "Food in Meal:":
+            error_message = "1"
+            serialcomm.write(error_message.encode('utf-8') + b'\n')
 
-    elif 'Food in Meal:' in received_line:
-        # Get response from OpenAI Assistant based on received line
-        api_request = get_assistant_response(received_line)
-        print(api_request) 
-        serialcomm.write(api_request.encode('utf-8') + b'\n')
+        elif 'Food in Meal:' in received_line:
+            # Get response from OpenAI Assistant based on received line
+            api_request = get_assistant_response(received_line)
+            print(api_request)
+            serialcomm.write(api_request.encode('utf-8') + b'\n')
 
-    elif received_line == "Scan":
-        # Prompt user to enter the name of a food item
-        while True:
-            user_input = input("Enter name of food item (max 16 chars, one word): ")
-            if len(user_input) <= 16 and len(user_input.split()) == 1:
-                # Send user input over serial communication
-                serialcomm.write(user_input.encode('utf-8') + b'\n')
-                break
-            else:
-                print("Input must be 16 characters or less and one word. Please try again.")
+        elif received_line == "Scan":
+            # Prompt user to enter the name of a food item
+            while True:
+                user_input = input("Enter name of food item (max 16 chars, one word): ")
+                if len(user_input) <= 16 and len(user_input.split()) == 1:
+                    # Send user input over serial communication
+                    serialcomm.write(user_input.encode('utf-8') + b'\n')
+                    break
+                else:
+                    print("Input must be 16 characters or less and one word. Please try again.")

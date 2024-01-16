@@ -161,6 +161,7 @@ void executeMenuItem() {
     } else { // Show response with analysis
       splitAndStore(response, 3000);
       delay(1000);  
+      clearFoodsArray();
     }
   } else { // Reset
     lcd.print("RESETTING...");
