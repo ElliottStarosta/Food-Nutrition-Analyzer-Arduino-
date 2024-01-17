@@ -32,16 +32,13 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 1. **Launch Arduino IDE:**
    - Open the Arduino IDE.
    - Upload the "main.cpp" file onto the Arduino.
-
-   ![Arduino IDE Launch](images/arduino_launch.png)  
    <img width="1280" alt="Screenshot 2024-01-17 124233" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/7ee624a7-7e9b-4e37-8ec8-7e9824abdaf1">
 
 2. **Launch VS Code:**
    - Open Visual Studio Code.
-   - Start the "main_food_algorithm" Python script.
+   - Start the "main_food_algorithm" Python script by clicking on the arrow in the top right (boxed in red)
+   <img width="1064" alt="Screenshot 2024-01-17 124628" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/b29c6219-89b5-4491-8731-82e952f3bcae">
 
-   ![VS Code Launch](images/vscode_launch.png)  
-   *(Placeholder: Screenshot of VS Code)*
 
 *Using the Machine:*
 
@@ -77,8 +74,10 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
    - Scan the item using the NFC tag.
    - Type its name in the terminal and press enter.
 
-   ![Add New Food](images/add_new_food.png)  
-   *(Placeholder: Screenshot of adding new food)*
+<img width="207" alt="Screenshot 2024-01-17 130850" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/2e692d22-154c-4ae1-843e-04cd9c8e0ff3">
+
+**NOTE**: If an item is already in the database, you would not be able to add it again and a message of "Already exists" will pop up
+
 
 *Scanning:*
 
@@ -98,7 +97,6 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
    ![Deleting Food](images/deleting_food.png)  
    *(Placeholder: Image of deleting a food item)*
 
-*Note: Replace the image placeholders with actual screenshots and visuals as per the finalized design of the Smart Meal Analyzer interface.*
 
 
 ### Source Code:
