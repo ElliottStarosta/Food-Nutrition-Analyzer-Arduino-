@@ -31,8 +31,8 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 
 1. **Launch Arduino IDE:**
    - Open the Arduino IDE.
-   - Upload the "main.cpp" file onto the Arduino.
-   <img width="1280" alt="Screenshot 2024-01-17 124233" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/7ee624a7-7e9b-4e37-8ec8-7e9824abdaf1">
+   - Upload the "main.cpp" file onto the Arduino (hit the button surronding the red box).
+   <img width="1279" alt="Screenshot 2024-01-17 131139" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/6e5779e3-75ee-4d4f-b7f0-81b4612ff296">
 
 2. **Launch VS Code:**
    - Open Visual Studio Code.
