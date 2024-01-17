@@ -23,7 +23,7 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 
 ### Functional Block Diagram
 
-![FinalBlock drawio](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/ae4c0c9d-94b1-4098-9133-1fdef4dadc0e)
+![FinalBlock drawio (1)](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/5bc544c5-b863-467f-9801-8506d67558c9)
 
 ### User Manual 
 
