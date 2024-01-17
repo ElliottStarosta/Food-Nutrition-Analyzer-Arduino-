@@ -27,29 +27,78 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 
 ### User Manual 
 
-#### Launching:
-- Launch Arduino IDE and upload the main.cpp onto the Arduino.
-- Launch VS Code and start the "main_food_algorithm" python script.
+*Getting Started:*
 
-#### Using the Machine:
-1. When starting, scan new food items you want to analyze during meal prep.
-2. To scan a food item into your meal, click "Scan"; follow the provided instructions.
-3. To delete a food, scroll down to "Delete"; follow the provided instructions.
-4. For meal analysis, scroll down to "Analyze Meal"; wait for the analysis results.
-5. To reset food list scroll down to "Reset Meal" and click on the item
-6. After analyzing your meal, add suggested foods to improve its nutritional balance.
-7. Repeat for multiple meals.
+1. **Launch Arduino IDE:**
+   - Open the Arduino IDE.
+   - Upload the "main.cpp" file onto the Arduino.
 
-#### Adding New Food:
-- When adding new food, scan the item using the NFC tag; then type its name in the terminal and press enter.
+   ![Arduino IDE Launch](images/arduino_launch.png)  
+   <img width="1280" alt="Screenshot 2024-01-17 124233" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/7ee624a7-7e9b-4e37-8ec8-7e9824abdaf1">
 
-#### Scan:
-- Place the NFC tag in front of the RFID scanner for scanning.
-- If a food item cannot be scanned, it will prompt you to add the item (follow the steps provided)
+2. **Launch VS Code:**
+   - Open Visual Studio Code.
+   - Start the "main_food_algorithm" Python script.
 
-#### Delete:
-- Scroll down to the food item you want to delete.
-- Press the joystick to delete the selected item.
+   ![VS Code Launch](images/vscode_launch.png)  
+   *(Placeholder: Screenshot of VS Code)*
+
+*Using the Machine:*
+
+3. **Scan New Food Items:**
+   - During meal prep, scan new food items.
+   - Click "Scan" and follow the provided instructions.
+
+   ![Scan Food](images/scan_food.png)  
+   *(Placeholder: Image of food scanning process)*
+
+4. **Delete Food:**
+   - Scroll down to "Delete" and follow the instructions to remove a food item.
+
+   ![Delete Food](images/delete_food.png)  
+   *(Placeholder: Image of deleting a food item)*
+
+5. **Meal Analysis:**
+   - Scroll down to "Analyze Meal" and wait for the analysis results.
+   - Add suggested foods to improve nutritional balance.
+
+   ![Analyze Meal](images/analyze_meal.png)  
+   *(Placeholder: Screenshot of meal analysis)*
+
+6. **Reset Food List:**
+   - Scroll down to "Reset Meal" and click on the item to reset the food list.
+
+   ![Reset Meal](images/reset_meal.png)  
+   *(Placeholder: Image of resetting the meal)*
+
+*Adding New Food:*
+
+7. **Adding New Food:**
+   - Scan the item using the NFC tag.
+   - Type its name in the terminal and press enter.
+
+   ![Add New Food](images/add_new_food.png)  
+   *(Placeholder: Screenshot of adding new food)*
+
+*Scanning:*
+
+8. **Scanning a Food Item:**
+   - Place the NFC tag in front of the RFID scanner for scanning.
+   - If a food item cannot be scanned, follow the prompts to add the item.
+
+   ![Scanning Process](images/scanning_process.png)  
+   *(Placeholder: Image of scanning a food item)*
+
+*Deleting:*
+
+9. **Deleting a Food Item:**
+   - Scroll down to the food item you want to delete.
+   - Press the joystick to delete the selected item.
+
+   ![Deleting Food](images/deleting_food.png)  
+   *(Placeholder: Image of deleting a food item)*
+
+*Note: Replace the image placeholders with actual screenshots and visuals as per the finalized design of the Smart Meal Analyzer interface.*
 
 
 ### Source Code:
