@@ -46,14 +46,14 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
    - During meal prep, scan new food items.
    - Click "Scan" and follow the provided instructions.
 
-   ![Scan Food](images/scan_food.png)  
-   *(Placeholder: Image of food scanning process)*
+   ![IMG_4869](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/edb915f1-5f30-4286-b7bf-fed9a91876f7)
+
 
 4. **Delete Food:**
    - Scroll down to "Delete" and follow the instructions to remove a food item.
 
-   ![Delete Food](images/delete_food.png)  
-   *(Placeholder: Image of deleting a food item)*
+   ![IMG-4876](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/cb4a6816-36ec-49c5-9645-0620cb8a5468)
+
 
 5. **Meal Analysis:**
    - Scroll down to "Analyze Meal" and wait for the analysis results.
@@ -65,8 +65,8 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 6. **Reset Food List:**
    - Scroll down to "Reset Meal" and click on the item to reset the food list.
 
-   ![Reset Meal](images/reset_meal.png)  
-   *(Placeholder: Image of resetting the meal)*
+   ![IMG_4875](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/3e37b92e-8693-4516-9f6c-59ddfa0283ed)
+
 
 *Adding New Food:*
 
@@ -85,17 +85,20 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
    - Place the NFC tag in front of the RFID scanner for scanning.
    - If a food item cannot be scanned, follow the prompts to add the item.
 
-   ![Scanning Process](images/scanning_process.png)  
-   *(Placeholder: Image of scanning a food item)*
+  ![IMG_4874 (1)](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/379e97bf-b038-4fec-be19-b943ee9fb64c)
+
 
 *Deleting:*
 
 9. **Deleting a Food Item:**
    - Scroll down to the food item you want to delete.
    - Press the joystick to delete the selected item.
+   - Hit "Done" at bottom of page to go back to main menu
 
-   ![Deleting Food](images/deleting_food.png)  
-   *(Placeholder: Image of deleting a food item)*
+   ![IMG_4872](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/72d5ad8c-3ce7-4836-bdeb-4a341f52765a)
+   ![IMG_4873](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/59e4717c-910b-4d40-bcd7-88b3da35ce3c)
+
+
 
 
 
