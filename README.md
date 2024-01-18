@@ -59,8 +59,7 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
    - Scroll down to "Analyze Meal" and wait for the analysis results.
    - Add suggested foods to improve nutritional balance.
 
-   ![Analyze Meal](images/analyze_meal.png)  
-   *(Placeholder: Screenshot of meal analysis)*
+    ![IMG_4874 (1)](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/379e97bf-b038-4fec-be19-b943ee9fb64c)
 
 6. **Reset Food List:**
    - Scroll down to "Reset Meal" and click on the item to reset the food list.
@@ -85,7 +84,8 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
    - Place the NFC tag in front of the RFID scanner for scanning.
    - If a food item cannot be scanned, follow the prompts to add the item.
 
-  ![IMG_4874 (1)](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/379e97bf-b038-4fec-be19-b943ee9fb64c)
+   ![IMG-4877](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/d22f3dcd-3be4-4673-befb-2ada8a224206)
+
 
 
 *Deleting:*
