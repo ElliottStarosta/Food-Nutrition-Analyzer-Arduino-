@@ -88,7 +88,7 @@ while True:
     received_line = serialcomm.readline().decode('ascii').strip()
 
     if received_line:  # Check if the line is not empty
-        print(received_line)
+        #print(received_line)
 
         # Handle different cases based on received data
         if received_line == "Food in Meal:":

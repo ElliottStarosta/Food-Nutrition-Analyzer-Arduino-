@@ -165,23 +165,22 @@ void executeMenuItem() {
     }
   } else { // Reset
     lcd.print("RESETTING...");
-    clearFoodsArray();
+    clearFoodsArray(); 
   }
 }
 
-// Add food to dict
+// Add food to struct
 void addFood(const char* uid, String name) {
   if (foodsCount < MAX_FOODS) {
     // Shift existing elements to make room for the new one
     for (int i = foodsCount - 1; i >= 0; i--) {
-      foods[i + 1] = foods[i];
+      foods[i + 1] = foods[i]; // Adds it to the next item
     }
 
     // Add the new element at the beginning
     strncpy(foods[0].id, uid, RFID_LENGTH - 1);
     foods[0].id[RFID_LENGTH - 1] = '\0';  // Null-terminate the string
-    foods[0].name = name;
-
+    foods[0].name = name; // Adds the element to the beginning
     foodsCount++;
   }
 }
@@ -192,7 +191,7 @@ void splitAndStore(String input, int delayTime) {
 
   String parts[maxParts];   // Array to store the parts
   int inputLength = input.length();
-  int partIndex = 0;
+  int partIndex = 0; // Checks which part it is at
 
   // loop over each 16 chars and adds it to a part
   for (int startPos = 0; startPos < inputLength; startPos += 16) {
@@ -200,13 +199,13 @@ void splitAndStore(String input, int delayTime) {
 
     // Check if the current part is empty, and break out of the loop
     if (currentPart.length() == 0) {
-      break;
+      break; //exits loop
     }
 
     parts[partIndex++] = currentPart; // Adds to array
     if (partIndex >= maxParts) {
       // Break if the maximum number of parts is reached
-      break;
+      break; //exits loop
     }
   }
   // Display parts going upward
@@ -216,11 +215,12 @@ void splitAndStore(String input, int delayTime) {
     lcd.print(parts[i]); // Print first row
 
     lcd.setCursor(0, 1); // Print second row
-    lcd.print(parts[i + 1]);
+    lcd.print(parts[i + 1]); // shows the next part (sentence)
 
-    delay(delayTime);
+    delay(delayTime); // delay for reading
   }
-  delay(1000);
+  delay(1000); // exit delay
+  // going back to menu
   currentPosition = 0;
   mainMenu();
 }
@@ -232,20 +232,20 @@ void returnFoodNames() {
   for (int i = 0; i < returnFoodsCount; i++) {
     Serial.print(returnFoodsArray[i]);
     if (i < returnFoodsCount - 1) {
-      Serial.print(", ");
+      Serial.print(", "); // seperating each food item
     }
   }
-  Serial.println();
+  Serial.println(); // safety for terminal printing
 }
 // Getting food name coresponding to uid 
 void getFoodName(String uid) {
-  bool found = false;
+  bool found = false; // sets "found" for finding the food to then jump out when found
 
   // Find the name corresponding to the UID in foods
   String scannedFoodName;
   for (int i = 0; i < foodsCount; i++) {
     if (String(foods[i].id) == uid) {
-      scannedFoodName = foods[i].name;
+      scannedFoodName = foods[i].name; // checks if the item scanned is correlating to the food item in index
       found = true;
       break;
     }
@@ -255,11 +255,11 @@ void getFoodName(String uid) {
   if (!found) {
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Error: Not found");
+    lcd.print("Error: Not found"); // Help show the user that it is not found
     lcd.setCursor(0, 1);
     lcd.print("in foods");
     delay(2500);
-    scannedFoodName = addScannedItem(uid);
+    scannedFoodName = addScannedItem(uid); // Adds the food to the database, so it is easier for the user (wont need to scroll to add it)
   }
 
   // Check if the name corresponding to the UID is already in returnFoodsArray
@@ -269,7 +269,7 @@ void getFoodName(String uid) {
       lcd.clear();
       lcd.print("Already Scanned");
       delay(2000);
-      return;
+      return; // jump out
     }
   }
 
@@ -316,7 +316,10 @@ void addExecute() {
 
   // Display a confirmation message
   lcd.clear();
-  lcd.print("Added: " + foodItem);
+  lcd.setCursor(0,0);
+  lcd.print("Added: ");
+  lcd.setCursor(0,1);
+  lcd.print(String(foodItem)); // cast just in case
   delay(2000);
 
 
@@ -333,7 +336,7 @@ String serialRead() {
       newString = Serial.readString();
     }
   }
-  return newString;
+  return newString; // returns the string from Serial Monitor
 }
 
 // RFID sensor scanner 
@@ -350,7 +353,7 @@ String waitForRFID() {
   }
 
   mfrc522.PICC_HaltA();  // Stop reading
-  return String(hex_num, HEX);
+  return String(hex_num, HEX); // returns the hex number for the uid
 }
 
 // Cleans inout and makes it store well 
@@ -465,18 +468,18 @@ void deleteExecute() {
 int delMenu(int currentListPos) {
   lcd.clear();
 
-  if (currentListPos == returnFoodsCount - 1) {
+  if (currentListPos == returnFoodsCount - 1) { // If it is on the second to last item
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("> " + String(returnFoodsArray[currentListPos]));
     lcd.setCursor(0, 1);
     lcd.print("DONE");
-  } else if (currentListPos >= returnFoodsCount ) {
+  } else if (currentListPos >= returnFoodsCount ) { // If the list is over 
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("> DONE");
     isDone = true;
-  } else {
+  } else { // If there are items in the list display the current one and the one after
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("> " + String(returnFoodsArray[currentListPos]));
