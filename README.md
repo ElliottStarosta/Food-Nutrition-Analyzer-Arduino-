@@ -1,8 +1,8 @@
-# Elliott Starosta TEJ20 Summative - Arduino Project
+# Food Analyzer Arduino Project
 
 ## Overview
 
-This repository contains the code and documentation for Elliott Starosta's TEJ20 Summative Arduino project. The project involves modifying an Arduino-based idea, demonstrating the skills and knowledge acquired during the course.
+This repository contains the code and documentation for Elliott Starosta's TEJ20 Summative Arduino project. The project involves modifying an Arduino-based idea and demonstrating the skills and knowledge acquired during the course.
 
 ## Project Details
 
@@ -33,7 +33,7 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 
 1. **Launch Arduino IDE:**
    - Open the Arduino IDE.
-   - Upload the "main.cpp" file onto the Arduino (hit the button surronding the red box).
+   - Upload the "main.cpp" file onto the Arduino (hit the button surrounding the red box).
    <img width="1279" alt="Screenshot 2024-01-17 131139" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/6e5779e3-75ee-4d4f-b7f0-81b4612ff296">
 
 2. **Launch VS Code:**
@@ -95,7 +95,7 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
 9. **Deleting a Food Item:**
    - Scroll down to the food item you want to delete.
    - Press the joystick to delete the selected item.
-   - Hit "Done" at bottom of page to go back to main menu
+   - Hit "Done" at the bottom of the page to go back to the main menu
 
    ![IMG_4872](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/72d5ad8c-3ce7-4836-bdeb-4a341f52765a)
    ![IMG_4873](https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/59e4717c-910b-4d40-bcd7-88b3da35ce3c)
