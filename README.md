@@ -37,8 +37,21 @@ Check the [Journal](https://docs.google.com/document/d/1gp0loAV-oS-ApLvzDotrjCvR
    <img width="1279" alt="Screenshot 2024-01-17 131139" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/6e5779e3-75ee-4d4f-b7f0-81b4612ff296">
 
 2. **Launch VS Code:**
-   - Open Visual Studio Code.
-   - Start the "main_food_algorithm" Python script by clicking on the arrow in the top right (boxed in red)
+   - Open Visual Studio Code, and clone the repository by doing the following command in terminal:
+   ```bash 
+   git clone https://github.com/ElliottStarosta/Food-Nutrition-Analyzer-Arduino-.git
+   ```
+   - Have the dependencies installed to run the code:
+   ```bash 
+   python -m pip install pyserial
+   ```
+   ```bash 
+   python -m pip install openai
+   ```
+   - Start the "main_food_algorithm" Python script by clicking on the arrow in the top right (boxed in red) or run this command in terminal:
+   ``` bash 
+   py Food-Nutrition-Analyzer-Arduino-\Arduino Based Code\main_food_algorithm.py
+   ```
    <img width="1064" alt="Screenshot 2024-01-17 124628" src="https://github.com/ElliottStarosta/TEJ20-Summative-/assets/147102252/b29c6219-89b5-4491-8731-82e952f3bcae">
 
 
